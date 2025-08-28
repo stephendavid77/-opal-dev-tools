@@ -25,6 +25,38 @@ FORBIDDEN_STRUCTURE_ELEMENTS = {
     },
 }
 
+REQUIRED_FILES = {
+    "README.md": "Each project must have a README.md file.",
+    "gemini.md": "Each project must have a gemini.md file.",
+}
+
+REQUIRED_SCRIPTS = {
+    "standalone.sh": [
+        "install dependencies",
+        "kill active port",
+        "npm install",
+        "start server",
+    ],
+    "webapp.sh": [
+        "install dependencies",
+        "kill active port",
+        "npm install",
+        "start server",
+    ],
+    "webapp_docker.sh": [
+        "install dependencies",
+        "kill active port",
+        "npm install",
+        "start server",
+    ],
+    "cloud_gcp_deployment.sh": [
+        "install dependencies",
+        "kill active port",
+        "npm install",
+        "start server",
+    ],
+}
+
 
 def get_project_type(project_path):
     # This is a placeholder. In a real scenario, you might infer this from project structure or a config file.
@@ -40,11 +72,35 @@ def check_structure():
 
     violations = []
 
+    # Check for forbidden files/directories
     for root, dirs, files in os.walk(project_path):
         for forbidden_element in FORBIDDEN_STRUCTURE_ELEMENTS.get(project_type, []):
             full_path = os.path.join(root, forbidden_element)
             if os.path.exists(full_path):
                 violations.append(f"Forbidden file/directory found: {full_path}")
+
+    # Check for required files
+    for required_file, message in REQUIRED_FILES.items():
+        if not os.path.exists(os.path.join(project_path, required_file)):
+            violations.append(message)
+
+    # Check for scripts folder and required scripts
+    scripts_path = os.path.join(project_path, "scripts")
+    if not os.path.exists(scripts_path):
+        violations.append("Each project must have a 'scripts' folder.")
+    else:
+        for script_name, required_keywords in REQUIRED_SCRIPTS.items():
+            script_path = os.path.join(scripts_path, script_name)
+            if not os.path.exists(script_path):
+                violations.append(f"Missing required script: scripts/{script_name}")
+            else:
+                with open(script_path, "r") as f:
+                    script_content = f.read()
+                    for keyword in required_keywords:
+                        if keyword not in script_content:
+                            violations.append(
+                                f"Script {script_name} is missing required keyword: '{keyword}'"
+                            )
 
     if violations:
         print("Structure check failed:")
