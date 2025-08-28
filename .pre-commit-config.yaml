@@ -11,27 +11,27 @@ repos:
     hooks:
       - id: black
         name: Black Code Formatter
-        entry: ./scripts/run_black.sh
+        entry: scripts/run_black.sh
         language: system
         types: [python]
         args: [--config=pyproject.toml]
 
       - id: isort
         name: Isort Import Sorter
-        entry: ./scripts/run_isort.sh
+        entry: scripts/run_isort.sh
         language: system
         types: [python]
         args: [--settings-path=pyproject.toml]
 
       - id: flake8
         name: Flake8 Linter
-        entry: ./scripts/run_flake8.sh
+        entry: scripts/run_flake8.sh
         language: system
         types: [python]
 
       - id: mypy
         name: Mypy Type Checker
-        entry: ./scripts/run_mypy.sh
+        entry: scripts/run_mypy.sh
         language: system
         types: [python]
         # Exclude architecture-checks from mypy for opal-dev-tools itself
@@ -39,14 +39,14 @@ repos:
 
       - id: bandit
         name: Bandit Security Linter
-        entry: ./scripts/run_bandit.sh
+        entry: scripts/run_bandit.sh
         language: system
         types: [python]
         args: [-r, .]
 
       - id: pytest
         name: Run Unit Tests
-        entry: ./scripts/run_pytest.sh
+        entry: scripts/run_pytest.sh
         language: system
         pass_filenames: false
         types: [python]
@@ -55,13 +55,13 @@ repos:
 
       - id: eslint
         name: ESLint Linter
-        entry: ./scripts/run_eslint.sh
+        entry: scripts/run_eslint.sh
         language: system
         types: [javascript]
 
       - id: prettier
         name: Prettier Code Formatter
-        entry: ./scripts/run_prettier.sh
+        entry: scripts/run_prettier.sh
         language: system
         types: [javascript, css, html, json, markdown, yaml]
 
