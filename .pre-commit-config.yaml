@@ -34,6 +34,15 @@ repos:
       - id: bandit
         args: ["-r", "."]
 
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0 # Or a more recent stable version
+    hooks:
+      - id: pytest
+        name: Run Unit Tests
+        entry: pytest
+        language: system
+        pass_filenames: false # Run tests on all files, not just staged ones
+
   # JavaScript/TypeScript linters (assuming Node.js projects)
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v8.46.0
