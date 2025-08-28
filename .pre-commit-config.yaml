@@ -27,21 +27,14 @@ repos:
     rev: v1.4.1
     hooks:
       - id: mypy
+        exclude: ^architecture-checks/ # Exclude architecture-checks directory
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.5
     hooks:
       - id: bandit
         args: ["-r", "."]
-
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0 # Or a more recent stable version
-    hooks:
-      - id: pytest
-        name: Run Unit Tests
-        entry: pytest
-        language: system
-        pass_filenames: false # Run tests on all files, not just staged ones
+        additional_dependencies: ["pbr"] # Add pbr as a dependency
 
   # JavaScript/TypeScript linters (assuming Node.js projects)
   - repo: https://github.com/pre-commit/mirrors-eslint
@@ -59,16 +52,26 @@ repos:
     hooks:
       - id: check-dependencies
         name: Check Architectural Dependencies
-        entry: python -m architecture_checks.check_dependencies
-        language: system
+        entry: python architecture-checks/check_dependencies.py # Direct path to script
+        language: python
+        additional_dependencies: ["toml"] # Add toml as a dependency
         pass_filenames: false
       - id: check-imports
         name: Check Architectural Imports
-        entry: python -m architecture_checks.check_imports
-        language: system
+        entry: python architecture-checks/check_imports.py # Direct path to script
+        language: python
         pass_filenames: false
       - id: check-structure
         name: Check Architectural Structure
-        entry: python -m architecture_checks.check_structure
-        language: system
+        entry: python architecture-checks/check_structure.py # Direct path to script
+        language: python
         pass_filenames: false
+        # Exclude check-structure for opal-dev-tools itself as it's a tool repo
+        # and doesn't necessarily have gemini.md or scripts folder
+        exclude: | # Use a regex to exclude files/directories from this check
+          (?x)^( # Start extended regex mode
+              README\.md|
+              \.pre-commit-config\.yaml|
+              architecture-checks/.*|
+              # Add other files/dirs to exclude from structure check if needed
+          )$

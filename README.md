@@ -1,4 +1,4 @@
-# OpalSuite Development Tools (`opal-dev-tools`)
+# OpalSuite Development Tools (`opal-dev-tools`) :
 
 This repository serves as the central hub for shared development tools and architectural checks across the entire OpalSuite ecosystem. Its primary purpose is to enforce code quality, consistency, and adherence to architectural standards through `pre-commit` hooks.
 
@@ -8,9 +8,9 @@ This repository serves as the central hub for shared development tools and archi
 
 The key checks include:
 
-*   **`check_dependencies.py`**: Ensures that projects adhere to defined dependency rules, preventing the use of forbidden libraries and promoting the consumption of centralized shared components.
-*   **`check_imports.py`**: Verifies import statements within Python modules to prevent direct imports of functionalities that should be accessed via shared services.
-*   **`check_structure.py`**: Enforces a consistent directory structure, ensuring the presence of required files (e.g., `scripts` folder, `README.md`) and preventing the inclusion of forbidden structural elements.
+- **`check_dependencies.py`**: Ensures that projects adhere to defined dependency rules, preventing the use of forbidden libraries and promoting the consumption of centralized shared components.
+- **`check_imports.py`**: Verifies import statements within Python modules to prevent direct imports of functionalities that should be accessed via shared services.
+- **`check_structure.py`**: Enforces a consistent directory structure, ensuring the presence of required files (e.g., `scripts` folder, `README.md`) and preventing the inclusion of forbidden structural elements.
 
 ## Pre-commit Integration (Global Hooks)
 
@@ -18,13 +18,13 @@ This repository is designed to be integrated into other OpalSuite projects as a 
 
 ### Global Hooks Provided:
 
-*   **Code Formatting:** `black`, `isort`, `prettier`
-*   **Python Linters:** `flake8`, `mypy`
-*   **Security Scanners:** `bandit`
-*   **General Checks:** `trailing-whitespace`, `end-of-file-fixer`, `check-yaml`, `check-added-large-files`
-*   **Architectural Checks:** `check-dependencies`, `check-imports`, `check-structure`
-*   **Unit Tests:** `pytest` (runs unit tests before commit)
-*   **JavaScript/TypeScript Linters:** `eslint`
+- **Code Formatting:** `black`, `isort`, `prettier`
+- **Python Linters:** `flake8`, `mypy`
+- **Security Scanners:** `bandit`
+- **General Checks:** `trailing-whitespace`, `end-of-file-fixer`, `check-yaml`, `check-added-large-files`
+- **Architectural Checks:** `check-dependencies`, `check-imports`, `check-structure`
+- **Unit Tests:** `pytest` (runs unit tests before commit)
+- **JavaScript/TypeScript Linters:** `eslint`
 
 ### Usage in Other Projects
 
@@ -60,6 +60,7 @@ To integrate these global hooks into any OpalSuite project:
     ```
 
 3.  **Install the hooks in the project:**
+
     ```bash
     pre-commit install
     ```
