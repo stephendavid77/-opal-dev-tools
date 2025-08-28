@@ -7,71 +7,90 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
 
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        args: ["--profile", "black"]
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
-    hooks:
-      - id: mypy
-        exclude: ^architecture-checks/ # Exclude architecture-checks directory
-
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.5
-    hooks:
-      - id: bandit
-        args: ["-r", "."]
-        additional_dependencies: ["pbr"] # Add pbr as a dependency
-
-  # JavaScript/TypeScript linters (assuming Node.js projects)
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.46.0
-    hooks:
-      - id: eslint
-
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0
-    hooks:
-      - id: prettier
-
-  # OpalSuite Architectural Checks (from this repository itself)
   - repo: local
     hooks:
+      - id: black
+        name: Black Code Formatter
+        entry: ./scripts/run_black.sh
+        language: system
+        types: [python]
+        args: [--config=pyproject.toml]
+
+      - id: isort
+        name: Isort Import Sorter
+        entry: ./scripts/run_isort.sh
+        language: system
+        types: [python]
+        args: [--settings-path=pyproject.toml]
+
+      - id: flake8
+        name: Flake8 Linter
+        entry: ./scripts/run_flake8.sh
+        language: system
+        types: [python]
+
+      - id: mypy
+        name: Mypy Type Checker
+        entry: ./scripts/run_mypy.sh
+        language: system
+        types: [python]
+        # Exclude architecture-checks from mypy for opal-dev-tools itself
+        exclude: ^architecture-checks/
+
+      - id: bandit
+        name: Bandit Security Linter
+        entry: ./scripts/run_bandit.sh
+        language: system
+        types: [python]
+        args: [-r, .]
+
+      - id: pytest
+        name: Run Unit Tests
+        entry: ./scripts/run_pytest.sh
+        language: system
+        pass_filenames: false
+        types: [python]
+        # Disable pytest for opal-dev-tools itself as it doesn't have unit tests
+        enabled: false
+
+      - id: eslint
+        name: ESLint Linter
+        entry: ./scripts/run_eslint.sh
+        language: system
+        types: [javascript]
+
+      - id: prettier
+        name: Prettier Code Formatter
+        entry: ./scripts/run_prettier.sh
+        language: system
+        types: [javascript, css, html, json, markdown, yaml]
+
       - id: check-dependencies
         name: Check Architectural Dependencies
-        entry: python architecture-checks/check_dependencies.py # Direct path to script
-        language: python
-        additional_dependencies: ["toml"] # Add toml as a dependency
+        entry: python architecture-checks/check_dependencies.py
+        language: system
         pass_filenames: false
+        types: [python]
+
       - id: check-imports
         name: Check Architectural Imports
-        entry: python architecture-checks/check_imports.py # Direct path to script
-        language: python
+        entry: python architecture-checks/check_imports.py
+        language: system
         pass_filenames: false
+        types: [python]
+
       - id: check-structure
         name: Check Architectural Structure
-        entry: python architecture-checks/check_structure.py # Direct path to script
-        language: python
+        entry: python architecture-checks/check_structure.py
+        language: system
         pass_filenames: false
-        # Exclude check-structure for opal-dev-tools itself as it's a tool repo
-        # and doesn't necessarily have gemini.md or scripts folder
-        exclude: | # Use a regex to exclude files/directories from this check
-          (?x)^( # Start extended regex mode
+        types: [python]
+        # Exclude check-structure for opal-dev-tools itself
+        exclude: |
+          (?x)^(
               README\.md|
               \.pre-commit-config\.yaml|
+              \.pre-commit-hooks\.yaml|
               architecture-checks/.*|
-              # Add other files/dirs to exclude from structure check if needed
+              scripts/.*|
           )$
