@@ -17,8 +17,3 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[project.scripts]
-check-dependencies = "architecture-checks.check_dependencies:check_dependencies"
-check-imports = "architecture-checks.check_imports:check_imports"
-check-structure = "architecture-checks.check_structure:check_structure"
