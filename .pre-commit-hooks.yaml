@@ -1,78 +1,78 @@
 # Python Hooks
 - id: black
   name: Black Code Formatter
-  entry: scripts/run_black.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_black.sh # Execute with python
+  language: python
   types: [python]
   args: [--config=pyproject.toml]
 
 - id: isort
   name: Isort Import Sorter
-  entry: scripts/run_isort.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_isort.sh # Execute with python
+  language: python
   types: [python]
   args: [--settings-path=pyproject.toml]
 
 - id: flake8
   name: Flake8 Linter
-  entry: scripts/run_flake8.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_flake8.sh # Execute with python
+  language: python
   types: [python]
 
 - id: mypy
   name: Mypy Type Checker
-  entry: scripts/run_mypy.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_mypy.sh # Execute with python
+  language: python
   types: [python]
   # Mypy often needs a config file (mypy.ini or pyproject.toml)
   # args: [--config-file=mypy.ini]
 
 - id: bandit
   name: Bandit Security Linter
-  entry: scripts/run_bandit.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_bandit.sh # Execute with python
+  language: python
   types: [python]
   args: [-r, .] # Run recursively on all files
 
 - id: pytest
   name: Run Unit Tests
-  entry: scripts/run_pytest.sh # Relative path within opal-dev-tools
-  language: system
+  entry: python scripts/run_pytest.sh # Execute with python
+  language: python
   pass_filenames: false # Run tests on all files, not just staged ones
   types: [python]
 
-# JavaScript/TypeScript Hooks
+# JavaScript/TypeScript Hooks (assuming Node.js projects)
 - id: eslint
   name: ESLint Linter
-  entry: scripts/run_eslint.sh # Relative path within opal-dev-tools
+  entry: scripts/run_eslint.sh # Still system, as it's a shell script calling npm/eslint
   language: system
-  types: [javascript] # Removed typescript
+  types: [javascript]
 
 - id: prettier
   name: Prettier Code Formatter
-  entry: scripts/run_prettier.sh # Relative path within opal-dev-tools
+  entry: scripts/run_prettier.sh # Still system, as it's a shell script calling npm/prettier
   language: system
-  types: [javascript, css, html, json, markdown, yaml] # Removed typescript
+  types: [javascript, css, html, json, markdown, yaml]
 
 # OpalSuite Architectural Checks (from architecture-checks directory)
 - id: check-dependencies
   name: Check Architectural Dependencies
-  entry: python architecture-checks/check_dependencies.py # Relative path within opal-dev-tools
-  language: python # Use python language for pre-commit's isolated env
+  entry: python architecture-checks/check_dependencies.py # Execute with python
+  language: python
   additional_dependencies: ["toml"] # Add toml as a dependency
   pass_filenames: false
   types: [python]
 
 - id: check-imports
   name: Check Architectural Imports
-  entry: python architecture-checks/check_imports.py # Relative path within opal-dev-tools
+  entry: python architecture-checks/check_imports.py # Execute with python
   language: python
   pass_filenames: false
   types: [python]
 
 - id: check-structure
   name: Check Architectural Structure
-  entry: python architecture-checks/check_structure.py # Relative path within opal-dev-tools
+  entry: python architecture-checks/check_structure.py # Execute with python
   language: python
   pass_filenames: false
   types: [python]

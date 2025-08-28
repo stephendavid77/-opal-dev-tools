@@ -11,43 +11,43 @@ repos:
     hooks:
       - id: black
         name: Black Code Formatter
-        entry: scripts/run_black.sh
-        language: system
+        entry: python scripts/run_black.sh
+        language: python
         types: [python]
         args: [--config=pyproject.toml]
 
       - id: isort
         name: Isort Import Sorter
-        entry: scripts/run_isort.sh
-        language: system
+        entry: python scripts/run_isort.sh
+        language: python
         types: [python]
         args: [--settings-path=pyproject.toml]
 
       - id: flake8
         name: Flake8 Linter
-        entry: scripts/run_flake8.sh
-        language: system
+        entry: python scripts/run_flake8.sh
+        language: python
         types: [python]
 
       - id: mypy
         name: Mypy Type Checker
-        entry: scripts/run_mypy.sh
-        language: system
+        entry: python scripts/run_mypy.sh
+        language: python
         types: [python]
         # Exclude architecture-checks from mypy for opal-dev-tools itself
         exclude: ^architecture-checks/
 
       - id: bandit
         name: Bandit Security Linter
-        entry: scripts/run_bandit.sh
-        language: system
+        entry: python scripts/run_bandit.sh
+        language: python
         types: [python]
         args: [-r, .]
 
       - id: pytest
         name: Run Unit Tests
-        entry: scripts/run_pytest.sh
-        language: system
+        entry: python scripts/run_pytest.sh
+        language: python
         pass_filenames: false
         types: [python]
         # Disable pytest for opal-dev-tools itself as it doesn't have unit tests
@@ -68,21 +68,22 @@ repos:
       - id: check-dependencies
         name: Check Architectural Dependencies
         entry: python architecture-checks/check_dependencies.py
-        language: system
+        language: python
+        additional_dependencies: ["toml"]
         pass_filenames: false
         types: [python]
 
       - id: check-imports
         name: Check Architectural Imports
         entry: python architecture-checks/check_imports.py
-        language: system
+        language: python
         pass_filenames: false
         types: [python]
 
       - id: check-structure
         name: Check Architectural Structure
         entry: python architecture-checks/check_structure.py
-        language: system
+        language: python
         pass_filenames: false
         types: [python]
         # Exclude check-structure for opal-dev-tools itself
