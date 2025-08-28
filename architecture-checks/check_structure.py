@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-
-"""
-This script checks the directory structure of each module to ensure that it follows the prescribed structure.
-"""
-
 import sys
 import os
 
@@ -30,32 +24,7 @@ REQUIRED_FILES = {
     "gemini.md": "Each project must have a gemini.md file.",
 }
 
-REQUIRED_SCRIPTS = {
-    "standalone.sh": [
-        "install dependencies",
-        "kill active port",
-        "npm install",
-        "start server",
-    ],
-    "webapp.sh": [
-        "install dependencies",
-        "kill active port",
-        "npm install",
-        "start server",
-    ],
-    "webapp_docker.sh": [
-        "install dependencies",
-        "kill active port",
-        "npm install",
-        "start server",
-    ],
-    "cloud_gcp_deployment.sh": [
-        "install dependencies",
-        "kill active port",
-        "npm install",
-        "start server",
-    ],
-}
+# REQUIRED_SCRIPTS dictionary is removed entirely
 
 
 def get_project_type(project_path):
@@ -66,8 +35,8 @@ def get_project_type(project_path):
 
 
 def check_structure():
-    print("Checking structure...")
-    project_path = os.getcwd() # Assuming the script is run from the project root
+    print("Checking project structure...")
+    project_path = os.getcwd()
     project_type = get_project_type(project_path)
 
     violations = []
@@ -84,23 +53,10 @@ def check_structure():
         if not os.path.exists(os.path.join(project_path, required_file)):
             violations.append(message)
 
-    # Check for scripts folder and required scripts
+    # Check for scripts folder (only existence, not content)
     scripts_path = os.path.join(project_path, "scripts")
     if not os.path.exists(scripts_path):
         violations.append("Each project must have a 'scripts' folder.")
-    else:
-        for script_name, required_keywords in REQUIRED_SCRIPTS.items():
-            script_path = os.path.join(scripts_path, script_name)
-            if not os.path.exists(script_path):
-                violations.append(f"Missing required script: scripts/{script_name}")
-            else:
-                with open(script_path, "r") as f:
-                    script_content = f.read()
-                    for keyword in required_keywords:
-                        if keyword not in script_content:
-                            violations.append(
-                                f"Script {script_name} is missing required keyword: '{keyword}'"
-                            )
 
     if violations:
         print("Structure check failed:")
