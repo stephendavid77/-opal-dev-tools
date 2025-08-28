@@ -17,3 +17,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "PyYAML", # Added for YAML config loading
+    "pytest", # Added for unit tests
+]
+dependencies = [
+    "PyYAML", # Added for YAML config loading
+    "pytest", # Added for unit tests
+]
